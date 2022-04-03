@@ -53,7 +53,8 @@ func (scene End) Render() string {
 		break
 	}
 
-	endMessage := fmt.Sprintf("Your Musshi last %d seconds.\n%s", int(scene.musshi.LifeTimeExpectancy.Seconds()), personnalizedMessage)
+	ageAfterDeath := scene.musshi.DeadAt.Sub(scene.musshi.BornAt)
+	endMessage := fmt.Sprintf("Your Musshi lived %d seconds.\n%s", int(ageAfterDeath.Seconds()), personnalizedMessage)
 
 	message := lipgloss.NewStyle().Width(50).Align(lipgloss.Center).Render(endMessage)
 	button := lipgloss.JoinHorizontal(lipgloss.Top, okButton, quitButton)

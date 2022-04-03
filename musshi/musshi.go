@@ -1,7 +1,6 @@
 package musshi
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
@@ -12,20 +11,20 @@ type Musshi struct {
 	LifeTimeExpectancy  time.Duration
 	lastAltered         time.Time
 	BornAt              time.Time
+	DeadAt              time.Time
 	random              int
 }
 
 func NewMusshi() *Musshi {
-
 	rand.Seed(time.Now().UnixNano())
 	random := rand.Int()
-	fmt.Println(random)
 	return &Musshi{
 		Heart:               NewHeart(),
 		IdealBeatsPerMinute: Sleeping.idealBPM(),
 		LifeTimeExpectancy:  time.Second * 130,
 		lastAltered:         time.Now(),
 		BornAt:              time.Now(),
+		DeadAt:              time.Time{},
 		random:              random % 10,
 	}
 }
@@ -85,12 +84,18 @@ func (m *Musshi) Activity() Activity {
 		return Playing
 	case m.Age() < time.Second*80:
 		return Sleeping
-	case m.Age() < time.Second*105:
-		return Reproducing
+	case m.Age() < time.Second*100:
+		return Loving
+	case m.Age() < time.Second*110:
+		return Sleeping
 	}
 	return Dying
 }
 
 func (m *Musshi) Alive() bool {
 	return m.Age() < m.LifeTimeExpectancy
+}
+
+func (m *Musshi) SetDeathTime(t time.Time) {
+	m.DeadAt = t
 }

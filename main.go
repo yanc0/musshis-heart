@@ -133,6 +133,7 @@ func (m gameState) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			m.musshi.Heart.Beat(time.Now())
 			if !m.musshi.Alive() {
+				m.musshi.SetDeathTime(time.Now())
 				m.ended = true
 				m.started = false
 			}
@@ -141,6 +142,7 @@ func (m gameState) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if m.started {
 			m.musshi.AlterLifeTimeExpectancy()
 			if !m.musshi.Alive() {
+				m.musshi.SetDeathTime(time.Now())
 				m.ended = true
 				m.started = false
 			}

@@ -5,7 +5,7 @@ type Activity string
 const (
 	Sleeping    Activity = "sleeping"
 	Playing     Activity = "playing"
-	Reproducing Activity = "reproducing"
+	Loving Activity = "reproducing"
 	Dying       Activity = "dying"
 	Dead        Activity = "dead"
 )
@@ -16,7 +16,7 @@ func (a Activity) idealBPM() int {
 		return 60
 	case Playing:
 		return 135
-	case Reproducing:
+	case Loving:
 		return 400
 	case Dying:
 		return 20

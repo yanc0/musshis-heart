@@ -11,11 +11,11 @@ func describeActivity(m *musshi.Musshi) string {
 	case musshi.Sleeping:
 		return fmt.Sprintf("Your Musshi sleeps quietly.\nYou can rest at around %d BPM.", m.GetIdealBPM())
 	case musshi.Playing:
-		return fmt.Sprintf("Your Musshi plays with his friends and burns energy.\nYou gotta keep the beat at %d BPM.", m.GetIdealBPM())
-	case musshi.Reproducing:
-		return fmt.Sprintf("Your Musshi has found love.\nYou must beat wildly at %d BPM.", m.GetIdealBPM())
+		return fmt.Sprintf("Your Musshi plays with his friends and burns energy.\nYou gotta keep the beat around %d BPM.", m.GetIdealBPM())
+	case musshi.Loving:
+		return fmt.Sprintf("Your Musshi has found love.\nYou must beat wildly at around %d BPM.", m.GetIdealBPM())
 	case musshi.Dying:
-		return fmt.Sprintf("Your Musshi had a great life.\nYou let him go slowly at %d BPM.", m.GetIdealBPM())
+		return fmt.Sprintf("Your Musshi had a great life.\nYou let him go slowly at around %d BPM.", m.GetIdealBPM())
 	default:
 		return string(m.Activity())
 	}

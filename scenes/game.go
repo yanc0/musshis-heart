@@ -33,16 +33,22 @@ func (scene Game) Render() string {
 	doc := strings.Builder{}
 
 	heartColor := okColor
+	var warningMessage string
 
 	switch scene.musshi.GetCondition() {
 	case musshi.TooHighBPM:
 		heartColor = warningColor
+		warningMessage = "Your Musshi is having heart palpitations. Slow down."
 	case musshi.TooLowBPM:
 		heartColor = warningColor
+		warningMessage = "Your Musshi needs a little more blood. Keep pumping."
 	case musshi.VeryHighBPM:
 		heartColor = criticalColor
+		warningMessage = "Your Musshi is having a heart attack !"
 	case musshi.VeryLowBPM:
 		heartColor = criticalColor
+		warningMessage = "Your Musshi is having a stroke !"
+
 	default:
 		heartColor = okColor
 	}
@@ -53,15 +59,16 @@ func (scene Game) Render() string {
 		musshiDraw = sleepingMusshi
 	case musshi.Playing:
 		musshiDraw = playingMusshi
-	case musshi.Reproducing:
-		musshiDraw = reproducingMusshi
+	case musshi.Loving:
+		musshiDraw = lovingMusshi
 	case musshi.Dying:
-		musshiDraw = deadMusshi
+		musshiDraw = sleepingMusshi
 	default:
-		musshiDraw = deadMusshi
+		musshiDraw = sleepingMusshi
 	}
 
-	lifetimeBox := lipgloss.NewStyle().Align(lipgloss.Right).Render(fmt.Sprintf("%d / %d seconds", int(scene.musshi.Age().Seconds()), int(scene.musshi.LifeTimeExpectancy.Seconds())))
+	lifetimeBox := lipgloss.NewStyle().Align(lipgloss.Right).Padding(1).Foreground(heartColor).Render(fmt.Sprintf("age: %ds / %ds life expectancy", int(scene.musshi.Age().Seconds()), int(scene.musshi.LifeTimeExpectancy.Seconds())))
+	warningMessageBox := lipgloss.NewStyle().Align(lipgloss.Right).Padding(1).Foreground(heartColor).Render(warningMessage)
 
 	heartDraw := lipgloss.NewStyle().Align(lipgloss.Center).Foreground(heartColor).Render(heartComponent)
 	currentBPM := lipgloss.NewStyle().Align(lipgloss.Left).PaddingTop(1).Foreground(heartColor).Render(fmt.Sprintf("BPM: %d", scene.musshi.Heart.BeatsPerMinute()))
@@ -69,7 +76,7 @@ func (scene Game) Render() string {
 
 	musshiBox := lipgloss.JoinVertical(lipgloss.Center, musshiDraw, string(describeActivity(scene.musshi)))
 
-	data := append(scene.musshi.Heart.Electrocardiogram(), -2, 5)
+	data := append(scene.musshi.Heart.Electrocardiogram(), -1, 5)
 	ecgPlot := asciigraph.Plot(data, asciigraph.Precision(0))
 
 	ecgPlot = strings.ReplaceAll(ecgPlot, "┤", "")
@@ -85,7 +92,7 @@ func (scene Game) Render() string {
 	ecgBox := lipgloss.NewStyle().Align(lipgloss.Left).Render(ecgPlot)
 	heartBox = lipgloss.JoinHorizontal(lipgloss.Center, ecgBox, heartBox)
 
-	tui := lipgloss.JoinVertical(lipgloss.Center, lifetimeBox, musshiBox, heartBox)
+	tui := lipgloss.JoinVertical(lipgloss.Center, lifetimeBox, warningMessageBox, musshiBox, heartBox)
 
 	doc.WriteString(lipgloss.Place(scene.width, 0,
 		lipgloss.Center, lipgloss.Center,
