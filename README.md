@@ -1,6 +1,8 @@
 # Musshi's Heart
 You drive the heart oh a little creature called: Musshi.
 
+Developped for the [50th Ludum Dare Game Jam: Delay The Inevitable](https://ldjam.com/events/ludum-dare/50/musshis-heart)
+
 ![screen](doc/musshi-good-health.png)
 
 ## Goal
