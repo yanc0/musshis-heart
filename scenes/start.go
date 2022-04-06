@@ -36,9 +36,10 @@ func (scene Start) Render() string {
 	button := lipgloss.JoinHorizontal(lipgloss.Top, okButton, quitButton)
 	ui := lipgloss.JoinVertical(lipgloss.Center, message, button)
 
+	bxStyle := boxStyle.Copy().BorderForeground(lipgloss.Color("#c2a908"))
 	dialog := lipgloss.Place(scene.width, scene.height,
 		lipgloss.Center, lipgloss.Center,
-		boxStyle.BorderForeground(lipgloss.Color("#c2a908")).Render(ui),
+		bxStyle.Render(ui),
 		lipgloss.WithWhitespaceChars("°"),
 		lipgloss.WithWhitespaceForeground(subtleColor),
 	)
