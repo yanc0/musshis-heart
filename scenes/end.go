@@ -34,27 +34,27 @@ func (scene End) Render() string {
 	okButton := activeButtonStyle.Render("Restart (r)")
 	quitButton := buttonStyle.Render("Quit (q)")
 
-	var personnalizedMessage string
+	var personalizedMessage string
 	switch {
 	case scene.musshi.LifeTimeExpectancy.Seconds() < 35:
-		personnalizedMessage = "The heart was a complete mess."
+		personalizedMessage = "The heart was a complete mess."
 		break
 	case scene.musshi.LifeTimeExpectancy.Seconds() < 60:
-		personnalizedMessage = "How sad to die so young."
+		personalizedMessage = "How sad to die so young."
 		break
 	case scene.musshi.LifeTimeExpectancy.Seconds() < 80:
-		personnalizedMessage = "So close to love."
+		personalizedMessage = "So close to love."
 		break
 	case scene.musshi.LifeTimeExpectancy.Seconds() < 105:
-		personnalizedMessage = "He found love but died bruttally."
+		personalizedMessage = "He found love but died brutally."
 		break
 	default:
-		personnalizedMessage = "He found love and had a great life"
+		personalizedMessage = "He found love and had a great life"
 		break
 	}
 
 	ageAfterDeath := scene.musshi.DeadAt.Sub(scene.musshi.BornAt)
-	endMessage := fmt.Sprintf("Your Musshi lived %d seconds.\n%s", int(ageAfterDeath.Seconds()), personnalizedMessage)
+	endMessage := fmt.Sprintf("Your Musshi lived %d seconds.\n%s", int(ageAfterDeath.Seconds()), personalizedMessage)
 
 	message := lipgloss.NewStyle().Width(50).Align(lipgloss.Center).Render(endMessage)
 	button := lipgloss.JoinHorizontal(lipgloss.Top, okButton, quitButton)
