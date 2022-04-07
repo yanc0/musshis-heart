@@ -94,9 +94,10 @@ func (scene Game) Render() string {
 
 	tui := lipgloss.JoinVertical(lipgloss.Center, lifetimeBox, warningMessageBox, musshiBox, heartBox)
 
+	bxStyle := boxStyle.Copy().BorderForeground(lipgloss.Color(heartColor))
 	doc.WriteString(lipgloss.Place(scene.width, 0,
 		lipgloss.Center, lipgloss.Center,
-		boxStyle.BorderForeground(lipgloss.Color(heartColor)).Render(tui),
+		bxStyle.Render(tui),
 		lipgloss.WithWhitespaceChars(" "),
 	))
 

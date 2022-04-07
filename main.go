@@ -5,6 +5,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -21,12 +22,13 @@ import (
 	"github.com/yanc0/musshis-heart/scenes"
 )
 
-const host = "0.0.0.0"
-const port = 2222
+var host = flag.String("host", "0.0.0.0", "host to listen on")
+var port = flag.Int("port", 2222, "port to listen on")
 
 func main() {
+	flag.Parse()
 	s, err := wish.NewServer(
-		wish.WithAddress(fmt.Sprintf("%s:%d", host, port)),
+		wish.WithAddress(fmt.Sprintf("%s:%d", *host, *port)),
 		wish.WithHostKeyPath(".ssh/term_info_ed25519"),
 		wish.WithMiddleware(
 			bm.Middleware(teaHandler),
@@ -39,7 +41,7 @@ func main() {
 
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
-	log.Printf("Starting SSH server on %s:%d", host, port)
+	log.Printf("Starting SSH server on %s:%d", *host, *port)
 	go func() {
 		if err = s.ListenAndServe(); err != nil {
 			log.Fatalln(err)
